@@ -61,7 +61,7 @@ const notificationSlice = createSlice({
       })
       .addCase(fetchNotifications.fulfilled, (state, action) => {
         state.loading = false;
-        state.notifications = action.payload.notifications || [];
+        state.notifications = action.payload.notifications || action.payload.results || [];
       })
       .addCase(fetchNotifications.rejected, (state, action) => {
         state.loading = false;
@@ -71,7 +71,7 @@ const notificationSlice = createSlice({
         state.unread_count = action.payload.unread_count ?? 0;
       })
       .addCase(markAsRead.fulfilled, (state, action) => {
-        const updated = action.payload.notification;
+        const updated = action.payload.notification || action.payload;
         state.notifications = state.notifications.map((n) =>
           n.id === updated.id ? updated : n
         );
